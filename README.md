@@ -1,2 +1,2 @@
 # PrometheanToolkit
- IC Design and Test Best Practices
+Enabling Best Practices in IC Design & Test 
