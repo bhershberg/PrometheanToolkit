@@ -5,3 +5,7 @@ Promethean Toolkit is made for IC designers, by IC designers. It solves many of 
 This project was originally conceived and developed by Benjamin Hershberg at imec in Leuven, Belgium from 2018-2020. Continuing support is provided by open-source contributors on GitHub, Benjamin Hershberg, and Imec.
 
 Get involved at: https://github.com/bhershberg/PrometheanToolkit
+
+
+#Getting Started
+Download this GitHub repo and then execute PrometheanToolkit.m in Matlab. In the GUI that pops up, go to the Help tab (last tab) and click on the "Intro to Promethean Toolkit" button in the top left corner of the Help tab. The file that opens up in your main Matlab Editor window will guide onward you from there. Good luck and godspeed!
