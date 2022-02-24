@@ -10,3 +10,6 @@ Get involved at: https://github.com/bhershberg/PrometheanToolkit
 
 # Getting Started
 Download this GitHub repo and then execute PrometheanToolkit.m in Matlab. In the GUI that pops up, go to the Help tab (last tab) and click on the "Intro to Promethean Toolkit" button in the top left corner of the Help tab. The file that opens up in your main Matlab Editor window will guide onward you from there. Good luck and godspeed!
+
+# Getting Further Help
+In theory, the built-in documentation of the Help tab in the Promethean Toolkit GUI can get you up and running. However, if you are stuck, find a bug, or need a feature, you can post to the discussion on the GitHub repo. This is currently an unpaid project with a team size of one person, so community engagement is strongly supported, and additional documentation (e.g. tutorial videos), new features, etc, are much more likely to happen if this project sees some use and interest from the IC design community. Let's see... ;-)
