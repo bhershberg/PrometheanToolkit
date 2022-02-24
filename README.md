@@ -7,7 +7,7 @@ Promethean Toolkit is made for IC designers, by IC designers. It solves many of 
 
 This project was originally conceived and developed by Benjamin Hershberg at imec in Leuven, Belgium from 2018-2020. Continuing support is provided by open-source contributors on GitHub, Benjamin Hershberg, and Imec.
 
-Get involved at: https://github.com/bhershberg/PrometheanToolkit
+Contribute to the project on GitHub: https://github.com/bhershberg/PrometheanToolkit
 
 
 # Installation
