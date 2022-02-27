@@ -26,8 +26,6 @@
 %
 function [ handle ] = placePanel( parent, row, col, name, options)
 
-    pause(0.001) % Matlab has a bug that if you place a panel inside of a tab that was just created, you must pause for a short instant in order for the panel to position correctly.
-
     if(nargin < 5), options = struct; end
     if(nargin < 4), name = ''; end
 

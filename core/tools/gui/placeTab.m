@@ -58,9 +58,14 @@ function [ handle ] = placeTab( parent, name, options_or_callback_1, options_or_
         end
     end
     
+    % Matlab has a bug that if you populate elements into a newly created
+    % Tab before the tab is drawn, the vertical pixel position values are
+    % all shifted incorrectly. I'm not sure how best to address this yet,
+    % perhaps just forcing a 'drawnow'?...
     if(options.forceRefresh)
         drawnow; % this is key to include! (otherwise getpixelposition may return the wrong values when populating the tab)
     end
+    pause(0.001) % drawnow doesn't seem to be sufficient in many cases. For some reason, this hack does work as far as I can tell. ¯\_(ツ)_/¯
 
 end
 

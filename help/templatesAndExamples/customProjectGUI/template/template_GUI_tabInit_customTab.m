@@ -5,7 +5,7 @@
 % If you want to display this tab in Promethean Toolkit, add the following line of
 % code to the file custom__initializeProjectGuiTab.m:
 %
-%   manager.placeTab(mainGuiTabs, 'Custom Tab', @template_GUI_tabInit_customTab);
+%   manager.placeTab(mainGuiTabs, 'Custom User Tab', @template_GUI_tabInit_customTab);
 % 
 function template_GUI_tabInit_customTab( tabPointer )
 
@@ -17,9 +17,13 @@ function template_GUI_tabInit_customTab( tabPointer )
     placeButton(tabPointer, 20, 3, 'Open This Tab GUI File',{@CB_openFile,mfilename()}); % you can attach a callback function directly like this
 
     % === Here is an example of how to place some common UI elements:
-    
-    row = 1; col = 1;
-    placeText(tabPointer,row,col,'Interactive Fixed Elements:',textDisplayOptions);
+    row = 1; col = [1 7];
+    placeText(tabPointer, row, col, 'Custom User Tab', textDisplayOptions);
+    placeText(tabPointer, row+1, col, 'This is just a demo. To get started on building your own custom functionality, see the ''Customization'' sub-section in the main ''Help'' tab.');
+    placeText(tabPointer, row+2, col, 'You can build just about any type of GUI into this custom area, and you can use the Promethean Toolkit API to interface your custom code & tools to the functionality provided in the default tabs.');
+
+    row = 5; col = 1;
+    placeText(tabPointer,row,col,'Example Interactive Fixed Elements:',textDisplayOptions);
     row = row+1; placeText(tabPointer,[row row + 1.5],col,'These embedded elements are very useful for building your own equipment interfaces.');
     row0 = row+1.5; % note that specified rows and column can also be decimals.
     
@@ -41,7 +45,7 @@ function template_GUI_tabInit_customTab( tabPointer )
     btn.String = 'Click me and see what happens!';
     
     % Let's also add an example of a custom user function:
-    row = 1; col = 3;
+    row = 5; col = 3;
     placeText(tabPointer,row,col,'Example Custom Function:',textDisplayOptions);
     row = row+1; placeButton(tabPointer,row,col,'User Function Example (click me)',@example_CB_userFunctionCallback);
 
