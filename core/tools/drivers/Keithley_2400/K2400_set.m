@@ -50,7 +50,11 @@ for k = 1:2:nargin,
 end
 
 % Open interface
-k2400 = gpib('ni', 0, GPIBaddress); %% second keithley has address 23 !
+if(isnumeric(GPIBaddress))
+    k2400 = gpib('ni', 0, GPIBaddress); %% second keithley has address 23 !
+else
+    k2400 = visa('agilent',['TCPIP0::' GPIBaddress '::inst0::INSTR']);
+end
 k2400.InputBufferSize = 512;
 
 fopen(k2400)
