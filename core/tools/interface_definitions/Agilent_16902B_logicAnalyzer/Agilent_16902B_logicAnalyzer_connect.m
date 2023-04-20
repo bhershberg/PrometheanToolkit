@@ -1,5 +1,5 @@
 function tf = Agilent_16902B_logicAnalyzer_connect( interfaceObject )
-
+    global LogicAnalyzerHandle;
     LA = interfaceObject;
     
     try 
