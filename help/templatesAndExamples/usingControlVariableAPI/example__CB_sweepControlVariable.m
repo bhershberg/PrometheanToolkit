@@ -8,7 +8,7 @@ function example__CB_sweepControlVariable(source, event)
 
     % for this demo, let's make sure we have the demo state file loaded up:
     answer = questdlg('For this demo, the demo.mat state file needs to be loaded.','Load demo.mat file?','Yes, load it','Skip, it is already loaded','No, cancel demo','No, cancel demo');
-    if(isequal(answer,'Yes, load it.'))
+    if(isequal(answer,'Yes, load it'))
         loadDemoState;
     elseif(isequal(answer,'No, cancel demo'))
         return;

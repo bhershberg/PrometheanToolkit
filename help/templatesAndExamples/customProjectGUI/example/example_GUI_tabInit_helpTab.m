@@ -82,7 +82,8 @@ function example_GUI_tabInit_helpTab( tabPointer )
 % === Example: Equipment Control API
     panel_userFunction = placePanel(tabPointer, [11 15], [2.3 3.45], 'Example: Equipment Control API',textDisplayOptions);
     col = 1; row = 1;
-    row = row+1; placeButton(panel_userFunction,row,col,'Run Example');
-    row = row+1; placeButton(panel_userFunction,row,col,'Open All Example Files',{@CB_openFile,{''}});
+    row = row+1; btn = placeButton(panel_userFunction,row,col,'Example (coming soon)');
+    btn.Enable = 'off';
+    row = row+1; placeButton(panel_userFunction,row,col,'Open All Example Files',{@CB_openFile,{'example__getCoreSupply.m','example__setInputPowerLevel.m','example__useLogicAnalyzer.m','template_applyInterface.m','template_createInterface.m'}});
     
 end
