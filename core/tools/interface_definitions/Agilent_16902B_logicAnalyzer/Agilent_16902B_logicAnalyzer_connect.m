@@ -4,7 +4,7 @@ global settings;
 LA = interfaceObject;
 
 try
-    LAdriver = 'Adam';
+    LAdriver = 'Ben';
     switch LAdriver
         case 'Ben'
             LogicAnalyzerHandle = logicAnalyzer_Ag16902B(LA.getProperty('configuration_file'),LA.getProperty('bus_width'));
