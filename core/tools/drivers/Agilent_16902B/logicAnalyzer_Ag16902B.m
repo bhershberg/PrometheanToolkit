@@ -242,6 +242,8 @@ classdef logicAnalyzer_Ag16902B < handle
       % Introduced on 4E-T3 -- breaks the project-agnostic character of the driver
       if getType == 3
           self.hSig = get (self.hAnalyzerSigs, 'Item', 'HSADC4E_Type3_Bus');
+      elseif getType == 1
+          self.hSig = get (self.hAnalyzerSigs, 'Item', 'hsadc6a');
       else
           self.hSig = get (self.hAnalyzerSigs, 'Item', 'My Bus 1');
       end
