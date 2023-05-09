@@ -177,7 +177,11 @@ function CVE_displayDataObject(dataObject, breadcrumb, parentPanel, parentMenu)
         button_printPathsSelected = placeButton(parentPanel,row,col_ef,'Print Control Paths of All Selected');
         button_printPathsSelected.Callback = {@CVE_printPathsSelected, dataObject, breadcrumb, lvl2_listbox, lvl1_listbox};
         button_printPathsSelected.Enable = 'on';
-
+        
+        row = row + 1;
+        button_sweepRegisterValue = placeButton(parentPanel,row,col_ef,'Sweep Register Values');
+        button_sweepRegisterValue.Callback = {@CVE_sweepRegister, dataObject, breadcrumb, lvl2_listbox, lvl1_listbox};
+        button_sweepRegisterValue.Enable = 'on';
     end
     
 % ==== Callback setup and finishing touches: ==============================
