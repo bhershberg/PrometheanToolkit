@@ -1,4 +1,4 @@
-function CVE_sweepRegister(source, event, dataObject, breadcrumb, lvl2_listbox, lvl1_listbox)
+function CVE_sweepRegister(source, event, dataObject, breadcrumb, ~, ~)
     % Allows the user to sweep this register value and look how the results
     % change
     global settings;
