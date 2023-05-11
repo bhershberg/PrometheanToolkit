@@ -4,28 +4,28 @@
 % Promethean Toolkit Benjamin Hershberg, 2020
 
 
-% Ultimately, every project is unique and requires some custom code. The
-% Source includes several APIs that allow you to interface your custom code
-% with the tools of Promethean Toolkit itself, using only function calls.
-% Thus, if you like to do everything with only text files and the Command
-% Window in Matlab, that's all you'll need. However, it is often very
-% advantageous to integrate your custom code into the graphical frontent of
-% Promethean Toolkit. Not only will this make your life much easier, but it
-% will make the lives of your colleagues and clients much easier too.
-% Instead of having to dig through cryptic code libraries, they'll be able
-% to use your work graphically through Promethean Toolkit itself. It really
-% cannot be overstated just how much a graphical way of working can boost
-% productivity. You catch mistakes quicker, instantly get insight into the
-% underlying data, and can experiment with different settings much easier.
+% Ultimately, every project is unique and requires some custom code.
+% Promethean Toolkit includes several APIs that allow you to interface your
+% custom code with the tools of Promethean Toolkit itself, using only
+% function calls. Thus, if you like to do everything with only text files
+% and the Command Window in Matlab, that's all you'll need. However, it is
+% often very advantageous to integrate your custom code into the graphical
+% frontent of Promethean Toolkit. Not only will this make your life much
+% easier, but it will make the lives of your colleagues and clients much
+% easier too. Instead of having to dig through cryptic code libraries,
+% they'll be able to use your work graphically through Promethean Toolkit
+% itself. It really cannot be overstated just how much a graphical way of
+% working can boost productivity. You catch mistakes quicker, instantly get
+% insight into the underlying data, and can experiment with different
+% settings much easier.
 
 % There are two main ways that this custom code integration can be done:
 % (1) with the Execution Manager, and (2) with a Custom GUI tab. The
-% Execution Manager is the easiest options for getting started with
-% immediately, and that's what we'll focus on in this file. It has
-% limitations to what it can do, but if you only have a few custom
-% functions that you need to run, this is a good place to start. Later, you
-% can always expand to a full custom GUI tab if you find that have the need
-% for it.
+% Execution Manager is the easiest option for getting started immediately,
+% and that's what we'll focus on in this file. It has limitations to what
+% it can do, but if you only have a few custom functions that you need to
+% run, this is a good place to start. Later, you can always expand to a
+% full custom GUI tab if you find that have the need for it.
 
 % A core principle of building custom functions in Promethean Toolkit is
 % that all custom code should be capable of two modes of execution. First,

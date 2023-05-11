@@ -82,17 +82,18 @@
     flattenStruct(digitalTree, struct(), 'D_')
 
 % Notice how when it flattened the structure, it converted from dot
-% notation to underscore notation. If you plan a little bit in advance
-% when you're working in Cadence, you can make the conversion between the
-% two environments trivial. In fact, if you're really using Promethean Toolkit as
-% intended, this will happen automatically, because you'll never be
-% creating new variables in Cadence. They will always be created in The
-% Source, and then *exported* into Cadence through various export channels,
-% and you will just load those e.g. ADE state files up in Cadence and
+% notation to underscore notation. If you plan a little bit in advance when
+% you're working in Cadence, you can make the conversion between the two
+% environments trivial. In fact, if you're really using Promethean Toolkit
+% as intended, this will happen automatically, because you'll never be
+% creating new variables in Cadence. They will always be created in
+% Promethean Toolkit, and then *exported* into Cadence through various
+% export channels, and you will just load those e.g. ADE state files up in
+% Cadence and
 % *poof* all of your variables will be there and waiting with nice
 % hierarchical names and the values of your current system configuration!
-% Let Promethean Toolkit lead, and Cadence follow, and you'll be in good shape
-% starting from day #1.
+% Let Promethean Toolkit lead, and Cadence follow, and you'll be in good
+% shape starting from day #1.
 
 % Once you have a first draft of your control variable hierarchy setup,
 % save the state to disk through the File Manager tab of the GUI. Now

@@ -11,16 +11,16 @@
 % Cadence cellview. But that's really just the beginning. Automating
 % measurements in a lab environment necessarily requires quite a bit of
 % custom code. For complex designs or large test campaigns, this can easily
-% turn into a function library unto itself. The role of Promethean Toolkit in all
-% this is three-fold: (1) automate the most common tasks that every
+% turn into a function library unto itself. The role of Promethean Toolkit
+% in all this is three-fold: (1) automate the most common tasks that every
 % designer needs with the already provided default GUI tabs, (2) do this in
 % a way that provides best-practice tools for traceability, repeatability,
 % and collaboration, and (3) enforce a framework that will encourage
-% designers to adhere to best-practices. It is this third point where The
-% Source and custom code intersect. By following the templates and examples
-% that are provided for custom code integration, it will enforce a number
-% of best-practices that you will be thankful to have followed further down
-% the road.
+% designers to adhere to best-practices. It is this third point where
+% Promethean Toolkit and custom code intersect. By following the templates
+% and examples that are provided for custom code integration, it will
+% enforce a number of best-practices that you will be thankful to have
+% followed further down the road.
 
 % It is first useful to say a little bit about the way that code and
 % functions are structured. The "execution stack" or "function stack" in
