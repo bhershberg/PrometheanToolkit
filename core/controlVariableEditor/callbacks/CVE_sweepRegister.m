@@ -23,7 +23,7 @@ function CVE_sweepRegister(source, event, dataObject, breadcrumb, ~, ~)
         eval(['sweepvec = ',text,';']);
         N = length(sweepvec);
         sweepvec = sweepvec(and(sweepvec>=minval,sweepvec <= maxval));
-        if length(sweepvec) ~= N
+        if sweepvec ~= N
             warning(['Provided vector [',text,'] for ',str,', is out of range. We reduced to the feasible range!']);
             N = length(sweepvec);
         end
@@ -33,26 +33,15 @@ function CVE_sweepRegister(source, event, dataObject, breadcrumb, ~, ~)
     end
     
     %% Sweep the Registervalues and capture data
-    P_sig = nan(1,N);
     for ii=1:N
         eval([str,'{1} = sweepvec(ii);']);
         
         compileAndProgramChip;
-%         pause(2)
-         %% Save data
-        captureResults = captureData;
         
-         options = mergeStruct(options,captureResults.options);
-        [reconstructedResults, data_reconstructed] = reconstructAndOptimize(captureResults, options);
-        [FFTresults, FFToptions] = fft_analysis(data_reconstructed, options);
-        P_sig(ii) = 10*log10(FFTresults.P_sig);
-        nosound = 1; Statusbar;
+        results = captureData;
     end
     
-   
-    namedFigure('P_sig'); plot(sweepvec, P_sig); hold on;
-    xlabel(str);
-
+    %% Save data
     
     %% Restore the old setting
     eval([str,'{1} = oldval;']);
