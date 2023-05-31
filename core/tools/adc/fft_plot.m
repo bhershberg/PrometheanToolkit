@@ -120,7 +120,7 @@ function results = fft_plot(results, options)
                        f_INTER_SPUR_folded_H1(i,j) = jlagos__decimation__folding(Fsig_undecimated*j + i*options.fclk/options.interleave_factor, options.fclk/2, options.Ndec)*1 ; %red X are the folded spurs around the fundamental
                        index_int_spur = min(find(freq_vector_f_decimated >= f_INTER_SPUR_folded_H1(i,j)));
                        if(index_int_spur ~= 1+results.index_harmonics(1)) % skip the fundamental
-%                             results.figure =  plot(freq_vector_f_decimated(index_int_spur-1), results.fft_norm_dB(index_int_spur-1), 'X', 'MarkerEdgeColor',[mod(j,3)==1,mod(j,3)==2,mod(j,3)==0]); %,[r,g,b]) %red around fundamental, green around 2nd harmonic, blue around 3rd harmonic 
+                            results.figure =  plot(freq_vector_f_decimated(index_int_spur-1), results.fft_norm_dB(index_int_spur-1), 'X', 'MarkerEdgeColor',[mod(j,3)==1,mod(j,3)==2,mod(j,3)==0]); %,[r,g,b]) %red around fundamental, green around 2nd harmonic, blue around 3rd harmonic 
     %                       text(freq_vector_f_decimated(index_int_spur)+dx, results.fft_norm_dB(index_int_spur-1)+dy, ['x' num2str(i)]); 
                        end
                 end
