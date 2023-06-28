@@ -45,12 +45,12 @@ function CVE_sweepRegister(source, event, dataObject, breadcrumb, ~, ~)
          options = mergeStruct(options,captureResults.options);
         [reconstructedResults, data_reconstructed] = reconstructAndOptimize(captureResults, options);
         [FFTresults, FFToptions] = fft_analysis(data_reconstructed, options);
-        P_sig(ii) = 10*log10(FFTresults.P_sig);
+        ENOB(ii) = FFTresults.ENOB;
         nosound = 1; Statusbar;
     end
     
    
-    namedFigure('P_sig'); plot(sweepvec, P_sig); hold on;
+    namedFigure('P_sig'); plot(sweepvec, ENOB); hold on;
     xlabel(str);
 
     
