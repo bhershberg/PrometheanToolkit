@@ -44,7 +44,7 @@ function [results, options] = fft_analysis(data, options)
     parser.add('calculateHarmonics',true);
     parser.add('calculateInterleaveSpurs',calcS);
     parser.add('normalizationMode','dBFS'); % options: dBc, dBFS
-    parser.add('Afs',2*ones(1,size(data3D,3)));
+    parser.add('Afs',2*sqrt(2)*ones(1,size(data3D,3)));
     parser.add('returnDefaults',false);
     parser.add('interactive', false);
     options = parser.applyDefaults(options);
