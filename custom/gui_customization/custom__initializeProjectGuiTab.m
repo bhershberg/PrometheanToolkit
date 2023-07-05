@@ -15,7 +15,7 @@ function custom__initializeProjectGuiTab()
     manager.placeTab(mainGuiTabs, 'Help', @example_GUI_tabInit_helpTab);
     
     % Uncomment this line to draw the custom tab template:
-    manager.placeTab(mainGuiTabs, 'Custom User Tab', @template_GUI_tabInit_customTab);
+    % manager.placeTab(mainGuiTabs, 'Custom User Tab', @template_GUI_tabInit_customTab);
 
     manager.placeTab(mainGuiTabs, 'HSADC6A Lab Macros', @HSADC6A_GUI_tabInit_helpTab);
     warning('off', 'instrument:visa:ClassToBeRemoved')
