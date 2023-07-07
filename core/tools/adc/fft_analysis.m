@@ -161,6 +161,7 @@ function [results, options] = fft_analysis(data, options)
                 end
                 index_int_spur = unique(index_int_spur - 1);
                 results.P_interleaveSpurs(i) = sum(fft_norm_P(setdiff(index_int_spur,sigIdx)));
+                results.THDint= 10*log10(P_sig / results.P_interleaveSpurs);
                 results.index_interleaveSpurs(i,:) = index_int_spur;
                 results.index_int_spur_matrix = (index_int_spur_matrix-1);
                 

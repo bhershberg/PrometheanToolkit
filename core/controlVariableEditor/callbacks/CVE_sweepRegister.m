@@ -50,7 +50,7 @@ function CVE_sweepRegister(source, event, dataObject, breadcrumb, ~, ~)
     end
     
    
-    namedFigure('P_sig'); plot(sweepvec, ENOB); hold on;
+    namedFigure('ENOB'); plot(sweepvec, ENOB); hold on;
     xlabel(str);
 
     
