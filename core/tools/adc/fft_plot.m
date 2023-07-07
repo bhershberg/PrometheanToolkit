@@ -46,7 +46,8 @@ function results = fft_plot(results, options)
     xvalues = 1:length(results.fft_norm_dB);
 
     if (isfield(options,'fclk') && isfield(options,'fsig') && isfield(options,'Ndec'))
-        options.fclk = options.fclk / options.interleave_divisionFactor; % Added by Ben to re-adjust to 
+        % options.fclk = options.fclk / options.interleave_divisionFactor; % Added by Ben to re-adjust to 
+        options.fclk = getClockFrequency/ options.interleave_divisionFactor;
         Fclk_decimated				=  options.fclk/options.Ndec/2; %results.Fclk_undecimated/results.decimation_factor; 
         Fs_step                     =  Fclk_decimated/(length(results.fft_norm_dB));
         freq_vector_f_decimated     =  0:Fs_step:Fclk_decimated-Fs_step;
