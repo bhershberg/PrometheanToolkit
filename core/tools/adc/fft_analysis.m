@@ -174,6 +174,9 @@ function [results, options] = fft_analysis(data, options)
             results.index_interleaveSpurs = [];
         end
         % --------------------------------------------
+
+        results.SNR(i) = 10*log10(P_sig / (sum(fft_norm_P(1+options.fft_dc_ignore:end)) - P_sig - P_harmonics - results.P_interleaveSpurs));
+        results.ENOB_SNR(i) = (results.SNR(i) - 1.76) / (20*log10(2)); 
         
     end
 

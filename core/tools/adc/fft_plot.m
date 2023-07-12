@@ -146,8 +146,8 @@ function results = fft_plot(results, options)
     end
 
     performanceSummary = '';
-    fieldsToPrint = {'SNDR','SFDR','HD2','HD3','THD', 'THDint','ENOB','dBFS'};
-    unitsToPrint = {'dB','dB','dB','dB','dB','dB','b','dB'};
+    fieldsToPrint = {'SNDR','SFDR','HD2','HD3','THD', 'THDint','ENOB','ENOB_SNR','dBFS'};
+    unitsToPrint = {'dB','dB','dB','dB','dB','dB','b', 'b','dB'};
     for xyz = 1:length(fieldsToPrint)
         if(isfield(results,fieldsToPrint{xyz}))
             performanceSummary = [performanceSummary sprintf('%s = %0.2f %s\n',fieldsToPrint{xyz},results.(fieldsToPrint{xyz}),unitsToPrint{xyz})];
