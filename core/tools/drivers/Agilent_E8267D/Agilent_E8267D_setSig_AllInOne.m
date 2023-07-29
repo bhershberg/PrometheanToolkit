@@ -123,7 +123,7 @@ if strcmp(FuncArg.Instr,'create') && FuncArg.openclose
     if(isnumeric(FuncArg.GPIBAddr))
         Ag_E8267D = gpib('ni', FuncArg.GPIBiBrd, FuncArg.GPIBAddr);
     else
-        Ag_E8267D = visa('agilent',['TCPIP0::' FuncArg.GPIBAddr '::inst0::INSTR']);
+        Ag_E8267D = visadev(['TCPIP0::' FuncArg.GPIBAddr '::inst0::INSTR']);
     end
     Ag_E8267D.InputBufferSize  = 2^10;
     Ag_E8267D.OutputBufferSize = 2^10;
@@ -174,7 +174,9 @@ end
 
 %% close communication if required
 if FuncArg.openclose
-    fclose(Ag_E8267D);
+    if isnumeric(FuncArg.GPIBAddr)
+        fclose(Ag_E8267D);
+    end
     pause(0.5);
     delete(Ag_E8267D)
     clear Ag_E8267D;
