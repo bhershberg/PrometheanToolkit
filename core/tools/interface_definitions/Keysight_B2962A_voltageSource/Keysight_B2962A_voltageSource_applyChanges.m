@@ -79,7 +79,7 @@ function Keysight_B2962A_voltageSource_applyChanges(interfacePanel)
                         'NCget',interface.channel);
                     pause(0.15);
                     Vwire = KS_Meas.c{1}.value * Rwire;
-                    interface.voltage = voltageRequested + sign(Vwire)*min(abs(Vwire),50e-3); % max correction 50mV for safety
+                    interface.voltage = voltageRequested + sign(Vwire)*min(abs(Vwire),200e-3); % max correction 50mV for safety
                 end
 
                 % Step2: Now apply all settings:
@@ -108,7 +108,7 @@ function Keysight_B2962A_voltageSource_applyChanges(interfacePanel)
                 if(interface.measure_current  && interface.enable)
                     if(interface.compensate_series_resistance && interface.enable)
                         Vwire = KS_Meas.c{1}.value * Rwire;
-                        interface.voltage = voltageRequested + sign(Vwire)*min(abs(Vwire),100e-3); % max correction 50mV for safety
+                        interface.voltage = voltageRequested + sign(Vwire)*min(abs(Vwire),200e-3); % max correction 50mV for safety
                         % reprogram:
                         pause(0.15);
                         KS_Meas = KstB2962A_ctrl('GPIBAddr', connectAddr, ...
