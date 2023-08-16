@@ -176,5 +176,6 @@ function results = fft_plot(results, options)
     if(options.show_yGridlines)
         f.CurrentAxes.YGrid = 'on';
     end
+    
 
 end
