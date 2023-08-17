@@ -25,7 +25,7 @@ function results = fft_plot(results, options)
     parser.add('show_harmonics',true);
     parser.add('show_interleaveSpurs',true);
     parser.add('numHarmonicsToHighlight',getNumHarmonicsToHighlight);
-    parser.add('num_interleaveSpurs',3);
+    parser.add('num_interleaveSpurs',getInterleaveConfig);
     parser.add('interleave_factor',1); % Number of interleaved channels
     parser.add('interleave_divisionFactor',1); % Total number of channels divided by number of interleaved channels
     parser.add('show_xGridlines',false);
@@ -46,7 +46,8 @@ function results = fft_plot(results, options)
     xvalues = 1:length(results.fft_norm_dB);
 
     if (isfield(options,'fclk') && isfield(options,'fsig') && isfield(options,'Ndec'))
-        options.fclk = options.fclk / options.interleave_divisionFactor; % Added by Ben to re-adjust to 
+        % options.fclk = options.fclk / options.interleave_divisionFactor; % Added by Ben to re-adjust to 
+        options.fclk = getClockFrequency/ options.interleave_divisionFactor;
         Fclk_decimated				=  options.fclk/options.Ndec/2; %results.Fclk_undecimated/results.decimation_factor; 
         Fs_step                     =  Fclk_decimated/(length(results.fft_norm_dB));
         freq_vector_f_decimated     =  0:Fs_step:Fclk_decimated-Fs_step;
@@ -117,10 +118,11 @@ function results = fft_plot(results, options)
             Nharmonics_to_calc_forSpurs = 1;
             for i=1:nr_of_interleaved_spurs
                 for j = 1:1:Nharmonics_to_calc_forSpurs
-                       f_INTER_SPUR_folded_H1(i,j) = jlagos__decimation__folding(Fsig_undecimated*j + i*options.fclk/options.interleave_factor, options.fclk/2, options.Ndec)*1 ; %red X are the folded spurs around the fundamental
-                       index_int_spur = min(find(freq_vector_f_decimated >= f_INTER_SPUR_folded_H1(i,j)));
-                       if(index_int_spur ~= 1+results.index_harmonics(1)) % skip the fundamental
-                            results.figure =  plot(freq_vector_f_decimated(index_int_spur-1), results.fft_norm_dB(index_int_spur-1), 'X', 'MarkerEdgeColor',[mod(j,3)==1,mod(j,3)==2,mod(j,3)==0]); %,[r,g,b]) %red around fundamental, green around 2nd harmonic, blue around 3rd harmonic 
+                       % f_INTER_SPUR_folded_H1(i,j) = jlagos__decimation__folding(Fsig_undecimated*j + i*options.fclk/options.interleave_factor, options.fclk/2, options.Ndec)*1 ; %red X are the folded spurs around the fundamental
+                       % index_int_spur = min(find(freq_vector_f_decimated >= f_INTER_SPUR_folded_H1(i,j)));
+                       if( results.index_int_spur_matrix(i,j) ~= results.index_harmonics(1)) % skip the fundamental
+                            % results.figure =  plot(freq_vector_f_decimated(index_int_spur-1), results.fft_norm_dB(index_int_spur-1), 'X', 'MarkerEdgeColor',[mod(j,3)==1,mod(j,3)==2,mod(j,3)==0]); %,[r,g,b]) %red around fundamental, green around 2nd harmonic, blue around 3rd harmonic 
+                            results.figure =  plot(freq_vector_f_decimated( results.index_int_spur_matrix(i,j)), results.fft_norm_dB( results.index_int_spur_matrix(i,j)), 'X', 'MarkerEdgeColor',[mod(j,3)==1,mod(j,3)==2,mod(j,3)==0]); %,[r,g,b]) %red around fundamental, green around 2nd harmonic, blue around 3rd harmonic 
     %                       text(freq_vector_f_decimated(index_int_spur)+dx, results.fft_norm_dB(index_int_spur-1)+dy, ['x' num2str(i)]); 
                        end
                 end
@@ -131,7 +133,7 @@ function results = fft_plot(results, options)
                  f_INTER_SPUR_folded(i) = jlagos__decimation__folding(i*options.fclk/options.interleave_factor, options.fclk/2, options.Ndec)*1 ; %r* for offset spurs
                  index_int_spur = min(find(freq_vector_f_decimated >= f_INTER_SPUR_folded(i)));
                  results.figure = plot(freq_vector_f_decimated(index_int_spur-1), results.fft_norm_dB(index_int_spur-1), 'r*'); 
-                 text(freq_vector_f_decimated(index_int_spur)+dx, results.fft_norm_dB(index_int_spur-1)+dy, num2str(i)); 
+%                  text(freq_vector_f_decimated(index_int_spur)+dx, results.fft_norm_dB(index_int_spur-1)+dy, num2str(i)); 
             end
         hold off 
         end
@@ -144,8 +146,8 @@ function results = fft_plot(results, options)
     end
 
     performanceSummary = '';
-    fieldsToPrint = {'SNDR','SFDR','THD','ENOB','dBFS'};
-    unitsToPrint = {'dB','dB','dB','b','dB'};
+    fieldsToPrint = {'SNDR','SFDR','HD2','HD3','THD', 'THDint','ENOB','ENOB_SNR','dBFS'};
+    unitsToPrint = {'dB','dB','dB','dB','dB','dB','b', 'b','dB'};
     for xyz = 1:length(fieldsToPrint)
         if(isfield(results,fieldsToPrint{xyz}))
             performanceSummary = [performanceSummary sprintf('%s = %0.2f %s\n',fieldsToPrint{xyz},results.(fieldsToPrint{xyz}),unitsToPrint{xyz})];
@@ -174,5 +176,6 @@ function results = fft_plot(results, options)
     if(options.show_yGridlines)
         f.CurrentAxes.YGrid = 'on';
     end
+    
 
 end

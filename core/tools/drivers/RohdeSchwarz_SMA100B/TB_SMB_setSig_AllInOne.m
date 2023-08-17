@@ -1,0 +1,19 @@
+interface.signal_frequency = 120e6;
+interface.signal_power = 12;
+interface.enable = 1;
+interface.IP = '10.90.1.92';
+interface.harmonic_filter = 0;
+mode_normal = 1;
+mode_low_Dist = 0;
+mode_low_Noise = 0;
+
+for ii=1:10:360
+SMB_setSig_AllInOne('CF',interface.signal_frequency, ...
+                    'CPhi', ii,...
+                    'PLev',interface.signal_power, ...
+                    'RFOn',interface.enable, ...
+                    'GPIBAddr',interface.IP, ...
+                    'HarmRej',interface.harmonic_filter, ...
+                    'NormMode',mode_normal, 'LOWD',mode_low_Dist, 'LOWN', mode_low_Noise);
+pause(0.1);
+end
