@@ -147,7 +147,7 @@ function [results, options] = fft_analysis(data, options)
         if(options.calculateInterleaveSpurs)
             try 
                 resultsBACKUP = results;
-                Nharmonics_to_calc_forSpurs = 1; % just calculate spurs for the fundamental tone
+                Nharmonics_to_calc_forSpurs = 2; % just calculate spurs for the fundamental tone
                 index_int_spur_matrix = zeros(options.num_interleaveSpurs, Nharmonics_to_calc_forSpurs);
                 index_int_spur        = [];
 
@@ -160,7 +160,9 @@ function [results, options] = fft_analysis(data, options)
                     end
                 end
                 index_int_spur = unique(index_int_spur - 1);
-                results.P_interleaveSpurs(i) = sum(fft_norm_P(setdiff(index_int_spur,sigIdx)));
+                indexes_interleaving_spurs = setdiff(index_int_spur,sigIdx); %removing the fundamenltal
+                indexes_interleaving_spurs = setdiff(indexes_interleaving_spurs,index_harmonics-1); %removing the harmonics
+                results.P_interleaveSpurs(i) = sum(fft_norm_P(indexes_interleaving_spurs));
                 results.THDint= 10*log10(P_sig / results.P_interleaveSpurs);
                 results.index_interleaveSpurs(i,:) = index_int_spur;
                 results.index_int_spur_matrix = (index_int_spur_matrix-1);
