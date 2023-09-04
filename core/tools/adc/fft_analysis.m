@@ -82,12 +82,14 @@ function [results, options] = fft_analysis(data, options)
             options.fft_dc_ignore = sigIdx - 1;
         end
         P_sig = sum(fft_norm_P(max(1,sigIdx-options.fft_fund_skirt_include):min(sigIdx+options.fft_fund_skirt_include,end)));
+        A_sig = 2*fft_trunc(max(1,sigIdx-options.fft_fund_skirt_include));
         P_spectrum = [fft_norm_P(options.fft_dc_ignore:max(sigIdx-1-options.fft_fund_skirt_include,options.fft_dc_ignore)) ...
                     fft_norm_P(min(sigIdx+1+options.fft_fund_skirt_include,end):end)];
         results.SNDR(i) = 10*log10(P_sig / (sum(fft_norm_P(1+options.fft_dc_ignore:end)) - P_sig));
         results.SFDR(i) = 10*log10(P_sig / max(P_spectrum(2:end)));
         results.ENOB(i) = (results.SNDR(i) - 1.76) / (20*log10(2)); 
         results.P_sig(i) = sum(P_sig);
+        results.A_sig(i) = A_sig;
         results.P_spectrum(i) = sum(P_spectrum);
         results.data(i,:) = data;
         
