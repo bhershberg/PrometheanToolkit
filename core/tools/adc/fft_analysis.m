@@ -82,12 +82,14 @@ function [results, options] = fft_analysis(data, options)
             options.fft_dc_ignore = sigIdx - 1;
         end
         P_sig = sum(fft_norm_P(max(1,sigIdx-options.fft_fund_skirt_include):min(sigIdx+options.fft_fund_skirt_include,end)));
+        A_sig = 2*fft_trunc(max(1,sigIdx-options.fft_fund_skirt_include));
         P_spectrum = [fft_norm_P(options.fft_dc_ignore:max(sigIdx-1-options.fft_fund_skirt_include,options.fft_dc_ignore)) ...
                     fft_norm_P(min(sigIdx+1+options.fft_fund_skirt_include,end):end)];
         results.SNDR(i) = 10*log10(P_sig / (sum(fft_norm_P(1+options.fft_dc_ignore:end)) - P_sig));
         results.SFDR(i) = 10*log10(P_sig / max(P_spectrum(2:end)));
         results.ENOB(i) = (results.SNDR(i) - 1.76) / (20*log10(2)); 
         results.P_sig(i) = sum(P_sig);
+        results.A_sig(i) = A_sig;
         results.P_spectrum(i) = sum(P_spectrum);
         results.data(i,:) = data;
         
@@ -147,7 +149,7 @@ function [results, options] = fft_analysis(data, options)
         if(options.calculateInterleaveSpurs)
             try 
                 resultsBACKUP = results;
-                Nharmonics_to_calc_forSpurs = 1; % just calculate spurs for the fundamental tone
+                Nharmonics_to_calc_forSpurs = 2; % just calculate spurs for the fundamental tone
                 index_int_spur_matrix = zeros(options.num_interleaveSpurs, Nharmonics_to_calc_forSpurs);
                 index_int_spur        = [];
 
@@ -160,7 +162,9 @@ function [results, options] = fft_analysis(data, options)
                     end
                 end
                 index_int_spur = unique(index_int_spur - 1);
-                results.P_interleaveSpurs(i) = sum(fft_norm_P(setdiff(index_int_spur,sigIdx)));
+                indexes_interleaving_spurs = setdiff(index_int_spur,sigIdx); %removing the fundamenltal
+                indexes_interleaving_spurs = setdiff(indexes_interleaving_spurs,index_harmonics-1); %removing the harmonics
+                results.P_interleaveSpurs(i) = sum(fft_norm_P(indexes_interleaving_spurs));
                 results.THDint= 10*log10(P_sig / results.P_interleaveSpurs);
                 results.index_interleaveSpurs(i,:) = index_int_spur;
                 results.index_int_spur_matrix = (index_int_spur_matrix-1);
