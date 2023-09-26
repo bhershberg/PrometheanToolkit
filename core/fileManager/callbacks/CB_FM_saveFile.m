@@ -22,11 +22,17 @@ function CB_FM_saveFile(source,event,checkbox_PrependDate,textEdit_Readme, check
         else
             pathname = '';
         end
-        filename = 'settings';
+        if strcmp(pathname(end-3:end),'.mat')
+            startstringcut = strfind(pathname,'\'); startstringcut = startstringcut(end)+1;
+            filename = pathname(startstringcut:end-4);
+            pathname = extractBefore(pathname,filename);
+        else
+            filename = 'settings';
+        end
         if(checkbox_PrependDate.Value == 1)
             filename = [datestr(datetime,'yyyy-mm-dd__HH-MM-ss____') filename];
         end
-        [filename pathname] = uiputfile('*.mat','Save Settings Structure',[pathname filename]);
+        [filename, pathname] = uiputfile('*.mat','Save Settings Structure',[pathname filename]);
         if(isnumeric(filename) || isnumeric(pathname)), return;  end
         if(~regexp(filename,'.mat'))
             filename = [filename '.mat'];
