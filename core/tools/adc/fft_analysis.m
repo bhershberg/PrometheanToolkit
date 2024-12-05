@@ -38,7 +38,7 @@ function [results, options] = fft_analysis(data, options)
     parser.add('fft_dc_ignore',1); % number of bins at low frequency to ignore
     parser.add('fft_fund_skirt_include',0); % number of bins on either side of fundamental to count as signal
     parser.add('num_harmonics',getNumHarmonicsToSave);
-    parser.add('num_interleaveSpurs',10);
+    parser.add('num_interleaveSpurs',getInterleaveConfig);
     parser.add('interleave_factor',length(ordering)); % Number of interleaved channels
     parser.add('interleave_divisionFactor',divisionFactor); % Total number of channels divided by number of interleaved channels
     parser.add('calculateHarmonics',true);
@@ -82,12 +82,14 @@ function [results, options] = fft_analysis(data, options)
             options.fft_dc_ignore = sigIdx - 1;
         end
         P_sig = sum(fft_norm_P(max(1,sigIdx-options.fft_fund_skirt_include):min(sigIdx+options.fft_fund_skirt_include,end)));
+        A_sig = 2*fft_trunc(max(1,sigIdx-options.fft_fund_skirt_include));
         P_spectrum = [fft_norm_P(options.fft_dc_ignore:max(sigIdx-1-options.fft_fund_skirt_include,options.fft_dc_ignore)) ...
                     fft_norm_P(min(sigIdx+1+options.fft_fund_skirt_include,end):end)];
         results.SNDR(i) = 10*log10(P_sig / (sum(fft_norm_P(1+options.fft_dc_ignore:end)) - P_sig));
         results.SFDR(i) = 10*log10(P_sig / max(P_spectrum(2:end)));
         results.ENOB(i) = (results.SNDR(i) - 1.76) / (20*log10(2)); 
         results.P_sig(i) = sum(P_sig);
+        results.A_sig(i) = A_sig;
         results.P_spectrum(i) = sum(P_spectrum);
         results.data(i,:) = data;
         
@@ -147,17 +149,26 @@ function [results, options] = fft_analysis(data, options)
         if(options.calculateInterleaveSpurs)
             try 
                 resultsBACKUP = results;
-                index_int_spur = [];
-                Nharmonics_to_calc_forSpurs = 1; % just calculate spurs for the fundamental tone
+                Nharmonics_to_calc_forSpurs = 2; % just calculate spurs for the fundamental tone
+                index_int_spur_matrix = zeros(options.num_interleaveSpurs, Nharmonics_to_calc_forSpurs);
+                index_int_spur        = [];
+
                 for k=1:options.num_interleaveSpurs
                     for j = 1:1:Nharmonics_to_calc_forSpurs
                            f_INTER_SPUR_folded_H1(k,j) = jlagos__decimation__folding(Fsig_undecimated*j + k*options.fclk/options.interleave_factor, options.fclk/2, options.Ndec)*1 ; %red X are the folded spurs around the fundamental
-                           index_int_spur(end+1) = min(find(freq_vector_f_decimated >= f_INTER_SPUR_folded_H1(k,j)));           
+                           index_int_spur(end+1)      = min(find(freq_vector_f_decimated >= f_INTER_SPUR_folded_H1(k,j)));     
+                           index_int_spur_matrix(k,j) = min(find(freq_vector_f_decimated >= f_INTER_SPUR_folded_H1(k,j)));     
+                           
                     end
                 end
                 index_int_spur = unique(index_int_spur - 1);
-                results.P_interleaveSpurs(i) = sum(fft_norm_P(setdiff(index_int_spur,sigIdx)));
+                indexes_interleaving_spurs = setdiff(index_int_spur,sigIdx); %removing the fundamenltal
+                indexes_interleaving_spurs = setdiff(indexes_interleaving_spurs,index_harmonics-1); %removing the harmonics
+                results.P_interleaveSpurs(i) = sum(fft_norm_P(indexes_interleaving_spurs));
+                results.THDint= 10*log10(P_sig / results.P_interleaveSpurs);
                 results.index_interleaveSpurs(i,:) = index_int_spur;
+                results.index_int_spur_matrix = (index_int_spur_matrix-1);
+                
             catch
                 warning('failed to calculate interleaving spur locations, skipping.');
                 results = resultsBACKUP;
@@ -167,6 +178,9 @@ function [results, options] = fft_analysis(data, options)
             results.index_interleaveSpurs = [];
         end
         % --------------------------------------------
+
+        results.SNR(i) = 10*log10(P_sig / (sum(fft_norm_P(1+options.fft_dc_ignore:end)) - P_sig - P_harmonics - results.P_interleaveSpurs));
+        results.ENOB_SNR(i) = (results.SNR(i) - 1.76) / (20*log10(2)); 
         
     end
 

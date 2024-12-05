@@ -135,6 +135,7 @@ InPars.addOptional('reset'     ,  0       ); % don't reset by default
 InPars.addOptional('GPIBAddr'  , 15       ); % GPIB default address
 InPars.addOptional('GPIBiBrd'  ,  0       ); % board index, added on 23/7/2019 while measuring HSADC3C
 % SMA 100A and 100B, RF output settings
+InPars.addOptional('CPhi'      ,  NaN      ); % RF phase
 InPars.addOptional('CF'        ,  NaN      ); % RF frequency
 InPars.addOptional('PLev'      ,  NaN      ); % RF power
 InPars.addOptional('RFon'      ,  NaN      ); % RF on
@@ -172,7 +173,7 @@ if strcmp(FuncArg.Instr,'create') && FuncArg.openclose
     if(isnumeric(FuncArg.GPIBAddr))
         RnS_SMA = gpib('ni', FuncArg.GPIBiBrd, FuncArg.GPIBAddr);
     else
-        RnS_SMA = visa('agilent',['TCPIP0::' FuncArg.GPIBAddr '::inst0::INSTR']);
+        RnS_SMA = visadev(['TCPIP0::' FuncArg.GPIBAddr '::inst0::INSTR']);
     end
     RnS_SMA.InputBufferSize  = 2^10;
     RnS_SMA.OutputBufferSize = 2^10;
@@ -192,6 +193,7 @@ end
 
 %% RF output settings applicable to both SMA100A and 100B
 if ~isnan(FuncArg.CF)       ,fprintf(RnS_SMA,'SOURCE:FREQ:CW %.8fMHz',FuncArg.CF/1e6)               ;end % signal frequency
+if ~isnan(FuncArg.CPhi)     ,fprintf(RnS_SMA,'SOURCE:PHAS %8.3f',FuncArg.CPhi)                  ;end % signal phase in degrees
 if ~isnan(FuncArg.PLev)     ,fprintf(RnS_SMA,'SOURCE:POWER:LEVEL:IMM:AMPLITUDE %fdBm',FuncArg.PLev) ;end % signal power level in dBm
 
 %% RF output settings specific to SMA100B
@@ -246,7 +248,7 @@ end
 
 % clock phase
 if ~isnan(FuncArg.clkPhi)
-    fprintf(RnS_SMA,':CSYNthesis:PHASe %10.1f',FuncArg.clkPhi);
+    fprintf(RnS_SMA,':CSYNthesis:PHASe %10.3f',FuncArg.clkPhi);
 end
 
 %% RF on/off
@@ -304,7 +306,9 @@ end
 
 %% close communication if required
 if FuncArg.openclose
-    fclose(RnS_SMA);
+    if isnumeric(FuncArg.GPIBAddr)
+        fclose(RnS_SMA);
+    end
     pause(0.5);
     delete(RnS_SMA)
     clear RnS_SMA;
